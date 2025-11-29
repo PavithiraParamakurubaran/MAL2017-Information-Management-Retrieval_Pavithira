@@ -1,0 +1,24 @@
+-- Set Exercise 5: View --
+-- SQL Code for the View --
+CREATE VIEW CW1.vw_TrailDetails
+AS
+SELECT 
+    t.trail_id,
+    t.trail_name,
+    t.trail_description,
+    t.date_created,
+    STRING_AGG(tf.feature_name, ', ') AS features
+FROM CW1.Trail t
+LEFT JOIN CW1.Trail_TrailFeature ttf
+    ON t.trail_id = ttf.trail_id
+LEFT JOIN CW1.TrailFeature tf
+    ON ttf.feature_id = tf.feature_id
+GROUP BY 
+    t.trail_id,
+    t.trail_name,
+    t.trail_description,
+    t.date_created;
+GO
+
+-- Testing the View --
+SELECT * FROM CW1.vw_TrailDetails;
