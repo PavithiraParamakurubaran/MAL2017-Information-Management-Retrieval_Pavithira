@@ -1,0 +1,17 @@
+-- Test INSERT --
+EXEC CW1.sp_InsertTrail 
+    @trail_name = 'Test Trail A',
+    @trail_description = 'Description for test trail A',
+    @created_by = 1;
+
+-- Test READ --
+EXEC CW1.sp_GetTrailById @trail_id = 1;
+
+-- Test UPDATE --
+EXEC CW1.sp_UpdateTrail
+    @trail_id = 1,
+    @trail_name = 'Updated Trail Name',
+    @trail_description = 'Updated description here';
+
+-- Test DELETE --
+EXEC CW1.sp_DeleteTrail @trail_id = 1002;
