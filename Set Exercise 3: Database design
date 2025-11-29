@@ -1,0 +1,21 @@
+CREATE TABLE Trail (
+    trail_id INT IDENTITY(1,1) PRIMARY KEY,
+    trail_name NVARCHAR(100) NOT NULL,
+    trail_description NVARCHAR(500) NULL,
+    created_by INT NOT NULL,
+    date_created DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT FK_Trail_User FOREIGN KEY (created_by) REFERENCES Users(user_id)
+);
+
+CREATE TABLE TrailFeature (
+    feature_id INT IDENTITY(1,1) PRIMARY KEY,
+    feature_name NVARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Trail_TrailFeature (
+    trail_id INT NOT NULL,
+    feature_id INT NOT NULL,
+    PRIMARY KEY (trail_id, feature_id),
+    CONSTRAINT FK_TrailFeature_Trail FOREIGN KEY (trail_id) REFERENCES Trail(trail_id),
+    CONSTRAINT FK_TrailFeature_Feature FOREIGN KEY (feature_id) REFERENCES TrailFeature(feature_id)
+);
