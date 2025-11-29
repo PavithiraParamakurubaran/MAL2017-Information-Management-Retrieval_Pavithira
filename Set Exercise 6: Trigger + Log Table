@@ -1,0 +1,20 @@
+-- Log Table --
+CREATE TABLE CW1.TrailLog (
+    log_id INT IDENTITY(1,1) PRIMARY KEY,
+    trail_id INT NOT NULL,
+    created_by INT NOT NULL,
+    date_logged DATETIME NOT NULL DEFAULT GETDATE()
+);
+GO
+
+-- Trigger to Log New Trails --
+CREATE TRIGGER CW1.trg_LogNewTrail
+ON CW1.Trail
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO CW1.TrailLog (trail_id, created_by)
+    SELECT trail_id, created_by 
+    FROM inserted;
+END
+GO
