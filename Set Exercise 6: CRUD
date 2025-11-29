@@ -1,0 +1,48 @@
+-- SQL Code for the CRUD Stored Procedures --
+-- Create (INSERT) Stored Procedure --
+CREATE PROCEDURE CW1.sp_InsertTrail
+    @trail_name NVARCHAR(150),
+    @trail_description NVARCHAR(500),
+    @created_by INT
+AS
+BEGIN
+    INSERT INTO CW1.Trail (trail_name, trail_description, created_by)
+    VALUES (@trail_name, @trail_description, @created_by);
+END
+GO
+
+-- Read (SELECT) Stored Procedure --
+CREATE PROCEDURE CW1.sp_GetTrailById
+    @trail_id INT
+AS
+BEGIN
+    SELECT * 
+    FROM CW1.Trail
+    WHERE trail_id = @trail_id;
+END
+GO
+
+-- Update Stored Procedure --
+CREATE PROCEDURE CW1.sp_UpdateTrail
+    @trail_id INT,
+    @trail_name NVARCHAR(150),
+    @trail_description NVARCHAR(500)
+AS
+BEGIN
+    UPDATE CW1.Trail
+    SET 
+        trail_name = @trail_name,
+        trail_description = @trail_description
+    WHERE trail_id = @trail_id;
+END
+GO
+
+-- Delete Stored Procedure --
+CREATE PROCEDURE CW1.sp_DeleteTrail
+    @trail_id INT
+AS
+BEGIN
+    DELETE FROM CW1.Trail
+    WHERE trail_id = @trail_id;
+END
+GO
