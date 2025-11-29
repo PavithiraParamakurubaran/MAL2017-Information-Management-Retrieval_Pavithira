@@ -1,0 +1,61 @@
+-- STEP 1 — Create Schema --
+CREATE SCHEMA CW1;
+GO
+
+-- STEP 2 — Create Required Tables --
+-- CW1.Trail --
+CREATE TABLE CW1.Trail (
+  traid_id INT INDENTITY(1,1) PRIMARY KEY,
+  trail_name NVARCHAR(150) NOT NULL,
+  trail_description NVARCHAR(500) NULL,
+  created_by INT NOT NULL,
+  date_created DATETIME NOT NULL DEFAULT GETDATE()
+);
+
+-- CW1.TrailFeature --
+CREATE TABLE CW1.TrailFeature (
+  feature_id INT INDENTITY(1,1) PRIMARY KEY,
+  feature_name NVARCHAR(100) NOT NULL
+);
+
+-- CW1.Trail_TrailFeature (Link Table) --
+CREATE TABLE CW1.Trail_TrailFeature(
+  traid_id INT NOT NULL,
+  feature_id INT NOT NULL,
+  PRIMARY KEY (trail_id,feature_id),
+  CONSTRAINT FK_TrailFeature_Trail FOREIGN KEY (traid_id)
+    REFERENCES CW1.Trail(traid_id),
+  CONSTRAINT FK_TrailFeature_Feature FOREIGN KEY (feature_id)
+    REFERENCES CW1.TrailFeature(feature_id)
+);
+
+-- STEP 3 — Insert Sample Data --
+-- Insert Trails --
+INSERT INTO CW1.Trail (trail_name, trail_description, created_by)
+VALUES
+('Bukit Gasing - Fence Loop', 'Popular loop trail with forest and viewpoints.', 1),
+('Penang Hill Trail', 'Steep climb with scenic views.', 2);
+
+-- Insert Features --
+INSERT INTO CW1.TrailFeature (feature_name)
+VALUES
+('Moderate'),
+('Loop'),
+('Forest'),
+('Steep'),
+('Scenic View');
+
+-- Link Trails ↔ Features --
+INSERT INTO CW1.Trail_TrailFeature (traid_id, feature_id)
+VALUES 
+(1, 1), -- Moderate
+(1, 2), -- Loop
+(1, 3), -- Forest
+(2, 1), -- Moderate
+(2, 4), -- Steep
+(2, 5); -- Scenic View
+
+-- STEP 4 — SELECT Statements for Screenshots --
+SELECT * FROM CW1.Trail;
+SELECT * FROM CW1.TrailFeature;
+SELECT * FROM CW1.Trail_TrailFeature;
