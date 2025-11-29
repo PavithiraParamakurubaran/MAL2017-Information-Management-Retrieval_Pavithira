@@ -1,0 +1,34 @@
+-- Existing Log Table --
+SELECT TOP (1000) 
+    [log_id],
+    [trail_id],
+    [created_by],
+    [date_logged]
+FROM [master].[CW1].[TrailLog];
+
+-- Trigger Implementation --
+-- CW1.Trail table --
+IF OBJECT_ID('CW1.trg_LogNewTrail', 'TR') IS NOT NULL
+    DROP TRIGGER CW1.trg_LogNewTrail;
+GO
+CREATE TRIGGER CW1.trg_LogNewTrail
+ON CW1.Trail
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO CW1.TrailLog (trail_id, created_by, date_logged)
+    SELECT i.trail_id, i.created_by, GETDATE()
+    FROM inserted i;
+END;
+GO
+
+-- Testing the Trigger --
+-- Step 1: Insert a sample trail --
+INSERT INTO CW1.Trail (trail_name, trail_description, created_by, date_created)
+VALUES ('Sunset Trail', 'A scenic mountain trail', ‘1’, GETDATE());
+
+-- Step 2: Check the log table --
+SELECT TOP 10 *
+FROM CW1.TrailLog
+ORDER BY log_id DESC;
+
